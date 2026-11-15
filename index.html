@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>النور الثاقب | V57</title>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>النور الثاقب | V57.1 إصلاح الدخول</title>
 <style>
 :root{font-family:Tahoma,Arial,sans-serif;background:#eef3fa;color:#12305f}*{box-sizing:border-box}body{margin:0}.wrap{max-width:950px;margin:3vh auto;padding:16px}.panel{background:#fff;border-radius:19px;padding:24px;box-shadow:0 8px 32px #082f681a}h1{color:#073b99;font-size:25px;border-right:6px solid #f68b08;padding-right:15px;margin-top:0}h2{font-size:21px}h3{font-size:17px}p{line-height:1.85}label{display:block;font-weight:600;margin:10px 0 5px}input,select{font:inherit;width:100%;border:1px solid #c2cfe3;background:white;padding:11px;border-radius:9px}button{font:inherit;border:0;border-radius:8px;background:#073b99;color:white;padding:11px 16px;cursor:pointer;margin:6px 3px}button.secondary{background:#e9f0fa;color:#073b99}button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}.muted{color:#64748b;font-size:13px}.notice{background:#fff0de;padding:12px;border-radius:8px;white-space:pre-wrap}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}.card{border:1px solid #d7e2f0;border-radius:10px;padding:13px;margin:8px 0;line-height:1.8;overflow-wrap:anywhere}.hr{border:0;border-top:1px solid #e0e7f0;margin:22px 0}#qr{display:block;max-width:235px;margin:12px auto}table{border-collapse:collapse;width:100%;font-size:14px}td,th{text-align:right;border-bottom:1px solid #e2e8f0;padding:10px}th{background:#eef3fc}.scroll{overflow-x:auto}.chip{display:inline-block;background:#e9f1fc;border-radius:16px;padding:4px 10px;color:#073b99;font-size:13px}.actions{display:flex;gap:6px;flex-wrap:wrap}.subtitle{color:#64748b;font-size:13px}.tabs{display:flex;gap:6px;flex-wrap:wrap}
 </style></head>
-<body><main class="wrap"><div class="panel"><h1>شركة النور الثاقب للكهرباء</h1><p class="subtitle">V57 — بوابة المواطنين والموظفين | بيانات Supabase مشتركة</p><p id="message" role="status" aria-live="polite"></p>
+<body><main class="wrap"><div class="panel"><h1>شركة النور الثاقب للكهرباء</h1><p class="subtitle">V57 — بوابة المواطنين والموظفين | بيانات Supabase مشتركة</p><p id="message" role="status" aria-live="polite">جارٍ تحميل نظام تسجيل الدخول...</p>
 <section id="entry"><div class="tabs"><button id="showCitizen" type="button" class="secondary">مواطن جديد</button><button id="showLogin" type="button" class="secondary">تسجيل الدخول</button></div>
-<form id="registerForm" class="hidden"><h2>تسجيل المواطن</h2><div class="grid"><div><label for="fullName">الاسم الكامل</label><input id="fullName" required minlength="3" maxlength="160"></div><div><label for="phone">هاتف للتواصل (غير مؤكد)</label><input id="phone" required inputmode="tel" pattern="(07[0-9]{9}|\+9647[0-9]{9})" placeholder="07xxxxxxxxx"></div><div><label for="regEmail">البريد الإلكتروني</label><input id="regEmail" required type="email" autocomplete="email"></div><div><label for="regPassword">كلمة المرور (12 حرفاً على الأقل)</label><input id="regPassword" required type="password" minlength="12" autocomplete="new-password"></div></div><button>إنشاء الحساب وإرسال التأكيد</button></form>
-<form id="loginForm"><h2>تسجيل الدخول</h2><label for="email">البريد الإلكتروني</label><input id="email" required type="email" autocomplete="email"><label for="password">كلمة المرور</label><input id="password" required type="password" autocomplete="current-password"><button>دخول</button></form></section>
+<form id="registerForm" class="hidden" onsubmit="event.preventDefault();"><h2>تسجيل المواطن</h2><div class="grid"><div><label for="fullName">الاسم الكامل</label><input id="fullName" required minlength="3" maxlength="160"></div><div><label for="phone">هاتف للتواصل (غير مؤكد)</label><input id="phone" required inputmode="tel" pattern="(07[0-9]{9}|\+9647[0-9]{9})" placeholder="07xxxxxxxxx"></div><div><label for="regEmail">البريد الإلكتروني</label><input id="regEmail" required type="email" autocomplete="email"></div><div><label for="regPassword">كلمة المرور (12 حرفاً على الأقل)</label><input id="regPassword" required type="password" minlength="12" autocomplete="new-password"></div></div><button>إنشاء الحساب وإرسال التأكيد</button></form>
+<form id="loginForm" onsubmit="event.preventDefault();"><h2>تسجيل الدخول</h2><label for="email">البريد الإلكتروني</label><input id="email" required type="email" autocomplete="email"><label for="password">كلمة المرور</label><input id="password" required type="password" autocomplete="current-password"><button>دخول</button></form></section>
 <section id="mfaEnroll" class="hidden"><h2>ربط Authenticator إلزامي</h2><p>جميع الموظفين والمدراء ملزمون بتأكيد البريد وربط تطبيق Authenticator عند أول دخول.</p><button type="button" id="enrollBtn">إنشاء رمز QR</button><img id="qr" alt="QR لتفعيل تطبيق Authenticator"><p id="secretText" class="muted"></p><label for="enrollCode">الرمز من التطبيق</label><input id="enrollCode" inputmode="numeric" maxlength="6" pattern="[0-9]{6}"><button id="confirmEnroll" type="button">تأكيد الربط</button></section>
 <section id="mfaChallenge" class="hidden"><h2>التحقق الثنائي</h2><label for="mfaCode">رمز Authenticator</label><input id="mfaCode" inputmode="numeric" maxlength="6" pattern="[0-9]{6}"><button id="verifyMfa" type="button">التحقق</button></section>
 <section id="citizenHome" class="hidden"><h2>حساب المواطن</h2><p id="citizenName"></p><p class="muted">بريد مؤكد. رقم الهاتف للتواصل فقط. المطابقة بالاسم ورقم الاشتراك لا تثبت الهوية القانونية؛ البيانات المالية الحقيقية غير مفعّلة.</p><hr class="hr"><h3>ربط اشتراك الكهرباء</h3><form id="subscriptionForm"><div class="grid"><div><label for="subscriptionNumber">رقم الاشتراك (11–30 رقماً)</label><input id="subscriptionNumber" required inputmode="numeric" pattern="[0-9]{11,30}" maxlength="30" autocomplete="off"></div><div><label for="subscriberName">اسم صاحب الاشتراك المسجل</label><input id="subscriberName" required minlength="3" maxlength="180" autocomplete="off"></div></div><button type="submit" id="linkSubmit">تحقق واربط الاشتراك</button></form><p id="linkMessage" role="status"></p><hr class="hr"><h3>اشتراكاتي المرتبطة</h3><div id="linkedSubscriptions"></div></section>
@@ -20,7 +20,21 @@
 <button id="logout" class="secondary hidden" type="button">تسجيل الخروج</button>
 </div></main>
 <script type="module">
-import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.57.0';
+let createClient;
+try {
+  ({createClient} = await import('https://esm.sh/@supabase/supabase-js@2.57.0'));
+} catch (primaryError) {
+  try {
+    ({createClient} = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm'));
+  } catch (fallbackError) {
+    document.getElementById('message').textContent = 'تعذر تحميل مكتبة الدخول. تحقق من الإنترنت، وعطّل مانع الإعلانات مؤقتاً لهذه الصفحة، ثم حدّثها.';
+    throw fallbackError;
+  }
+}
+window.addEventListener('unhandledrejection', e => {
+  document.getElementById('message').textContent='حدث خطأ غير متوقع في الاتصال. حدّث الصفحة أو حاول مجدداً.';
+  console.error('Alnoor async error',e.reason);
+});
 const supabase=createClient('https://tjunkbstrwutlqglmfsx.supabase.co','sb_publishable_wyAQzNDJr_kl-TlRbsayvw_jcfqo2ZP');
 const el=id=>document.getElementById(id);let factorId=null;let staffRole=null;
 const areas={'زيونة':['710','712','714','716','718'],'الغدير':['704','706'],'شارع فلسطين':['105','506','508','510','720','722','724']};
@@ -35,7 +49,19 @@ function updateMahala(){el('newMahala').replaceChildren();for(const m of areas[e
 el('showCitizen').onclick=()=>{el('registerForm').classList.remove('hidden');el('loginForm').classList.add('hidden');notice('')};
 el('showLogin').onclick=()=>{el('registerForm').classList.add('hidden');el('loginForm').classList.remove('hidden');notice('')};
 el('registerForm').onsubmit=async e=>{e.preventDefault();notice('');const {error}=await supabase.auth.signUp({email:el('regEmail').value.trim(),password:el('regPassword').value,options:{emailRedirectTo:location.origin+location.pathname,data:{account_type:'citizen',full_name:el('fullName').value.trim(),contact_phone:el('phone').value.trim()}}});if(error)return fail(error);show('entry');el('registerForm').classList.add('hidden');el('loginForm').classList.remove('hidden');notice('إذا تم قبول التسجيل ستصلك رسالة لتأكيد البريد الإلكتروني. اضغط رابطها ثم سجل الدخول.')};
-el('loginForm').onsubmit=async e=>{e.preventDefault();notice('');const {error}=await supabase.auth.signInWithPassword({email:el('email').value.trim(),password:el('password').value});if(error)return fail(error);await route()};
+el('loginForm').onsubmit=async e=>{
+ e.preventDefault();
+ const btn=el('loginForm').querySelector('button[type=submit],button');
+ btn.disabled=true; notice('جارٍ تسجيل الدخول...');
+ try {
+  const authRequest = supabase.auth.signInWithPassword({email:el('email').value.trim(), password:el('password').value});
+  const response = await Promise.race([authRequest,new Promise((_,reject)=>setTimeout(()=>reject(new Error('انتهت مهلة الاتصال. تحقق من الإنترنت وأعد المحاولة.')),18000))]);
+  if(response.error){notice(response.error.message==='Invalid login credentials'?'البريد الإلكتروني أو كلمة المرور غير صحيحة.':response.error.message);return;}
+  notice('تم قبول البريد وكلمة المرور، جارٍ فتح حسابك...');
+  await route();
+ } catch(err) {console.error('Alnoor login error',err);notice(err?.message||'تعذر فتح الحساب. حاول مجدداً.');}
+ finally{btn.disabled=false;}
+};
 async function route(){const {data:{user},error}=await supabase.auth.getUser();if(error||!user){show('entry');return}if(!user.email_confirmed_at){await supabase.auth.signOut();show('entry');notice('أكد بريدك الإلكتروني أولاً');return}const staff=await supabase.from('staff_members').select('full_name,staff_role,active').eq('user_id',user.id).maybeSingle();if(staff.error)return fail(staff.error);
 if(staff.data){staffRole=staff.data.staff_role;if(!staff.data.active){await supabase.auth.signOut();show('entry');notice('حساب الموظف معطل');return}const a=await supabase.auth.mfa.getAuthenticatorAssuranceLevel();if(a.error)return fail(a.error);if(a.data.currentLevel==='aal2'){show('staffHome','logout');el('staffName').textContent=staff.data.full_name+' — '+(roleNames[staffRole]||staffRole);await openStaffPanel();return}const f=await supabase.auth.mfa.listFactors();if(f.error)return fail(f.error);const verified=f.data.totp.find(x=>x.status==='verified');if(verified){factorId=verified.id;show('mfaChallenge','logout')}else show('mfaEnroll','logout');return}
 const citizen=await supabase.from('citizen_profiles').select('full_name').eq('user_id',user.id).maybeSingle();if(citizen.error)return fail(citizen.error);if(!citizen.data){await supabase.auth.signOut();show('entry');notice('هذا الحساب غير مخوّل');return}el('citizenName').textContent='مرحباً '+citizen.data.full_name;show('citizenHome','logout');await loadLinkedSubscriptions()}
@@ -58,5 +84,6 @@ el('enrollBtn').onclick=async()=>{notice('');const {data,error}=await supabase.a
 el('confirmEnroll').onclick=async()=>{if(!factorId)return notice('اعرض رمز QR أولاً');const code=el('enrollCode').value.trim();if(!/^\d{6}$/.test(code))return notice('الرمز يجب أن يكون 6 أرقام');const {error}=await supabase.auth.mfa.challengeAndVerify({factorId,code});if(error)return fail(error);el('secretText').textContent='';el('qr').removeAttribute('src');await route()};
 el('verifyMfa').onclick=async()=>{const code=el('mfaCode').value.trim();if(!/^\d{6}$/.test(code))return notice('الرمز يجب أن يكون 6 أرقام');const {error}=await supabase.auth.mfa.challengeAndVerify({factorId,code});if(error)return fail(error);await route()};
 el('logout').onclick=async()=>{await supabase.auth.signOut();factorId=null;staffRole=null;show('entry');notice('تم تسجيل الخروج')};
-await route();
+notice('');
+try { await route(); } catch(err) { console.error('Initial routing error',err); notice('حدث خطأ أثناء فتح حسابك؛ حدّث الصفحة.'); }
 </script></body></html>
